@@ -4,7 +4,7 @@
 //da inserire
 
 ## Schema concettuale della base di dati
-![](../Resources/Diagramma.drawio.png)
+![](../Resources/DiagrammaJPG.jpg)
 
 ## Schema logico della base di dati
 
