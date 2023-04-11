@@ -11,4 +11,4 @@ Siamo partiti creando le prime identità più importatnti dello schema relaziona
 Le prime due entità erano ovvimente legate tra loro, visto che, una squadra non è altro che un insieme di conconrrenti, inoltre entrambe hanno una relazione con la gara, che noi abbiamo trasposto come entità a parte. Abbiamo notato come l'entità gara è strettamente legata con una relazione all'entità fase e a quella della sede. Dopo aver impostato la nostra entità gara, abbiamo individuato due nuove relazoni tra i concorretni e con la squadra che prende il nome di "partecipa", aggiungendo come attributo alla relazione la posizione in classifica.
 Infine abbiamo deciso che, per facilitare alcune query nella traccia, bisognava aggiungere l'entità dell'istituto, al quale  abbiamo collegato sia gli studenti che le squadre.
 
-![](./Resources/DIAGRAMMA_ERpng.png) 
+![](../Resources/Diagramma.drawio.png) 
