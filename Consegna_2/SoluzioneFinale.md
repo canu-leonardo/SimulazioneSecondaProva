@@ -19,10 +19,10 @@ Leggendo attentamente tutta la traccia, abbiano notato come sia necessario l'**I
 - **Squadra**: la squadra è l'entità nella quale si raggruppano diversi atleti che vogliono partecitare alle Olimpiadi.
  La squadra dovrà scegliere un suo nome ma sarà comunque identificata da un ID, in oltre, dopo una più attenta analisi, abbiamo deciso di imporre come vincolo che tutta la squadra deve provenire dallo stesso istituto.<br> 
 - **Istuituto**: L'istituto è un' entità che abbiamo deciso di mettere dopo esserci soffermati sulla normalizzazione delle nostre entità. Abbiamo notato, infatti, come essa sia presente nelle entità *Atleta* e *Squadra*, costringendoci a creare un'entità appposita, per evitere problemi di ridondanza e integrità. Così l'istituto è caratterizzato, come la sede, dal suo CAP. C'era la possibilità di riunire le entità Sede e Istituto, ma abbiamo deciso di inserire nel nostro sistema informativo la possibilità che una gara non si tenga all'interno di una scuola.<br> 
-- **Partecipa_Squadra/Partecipa_Singolo**: queste due tabelle vengono fuori dalle relazioni N a N tra studente-gara e squadra-gara. Sono molto simili: hanno entrambi come le chiavi delle entità che mettono in relazione, con l'aggiunta della posizione in classifica.<br>
+- **Partecipa_Squadra/Partecipa_Singolo**: queste due tabelle vengono fuori dalle relazioni N a N tra studente-gara e squadra-gara. Sono molto simili: hanno entrambi come le chiavi delle entità che mettono in relazione, con l'aggiunta della posizione in classifica.<br>   
 
 ## Schema concettuale della base di dati
-![](../Resources/DiagrammaJPG.jpg)
+![](../Resources/DiagrammaER_image.jpg)
 
 ## Schema logico della base di dati
 - **Istituto**: Nome, *CAP_Istituto*(PK);
@@ -30,15 +30,14 @@ Leggendo attentamente tutta la traccia, abbiano notato come sia necessario l'**I
 - **Fase**: *ID_Fase*(PK), Descrizione;
 - **Atleta**: Nome, Cognome, Eta, *CAP_Istituto*(FK), *CF*(PK), *ID_Squadra*(FK);
 - **Squadra**: *ID_Squadra*(PK), Nome, *CAP_Istituto*(FK);
-- **Gara**: *ID_Gara*(PK), *ID_Fase*(FK), *CAP_Sede*(FK);
-- **Partecipa_squadra**: *ID_Squadra*(FK), *ID_Gara*(FK), Posizione;
-- **Partecipa_singolo**: *ID_Atleta*(FK), *ID_Gara*(FK), Posizione;
+- **Gara**: *ID_Gara*(PK), data_esecuzione, *ID_Fase*(FK), *CAP_Sede*(FK);
+- **Partecipa**: *ID_Squadra*(FK), *ID_Gara*(FK), Posizione, Punteggio;
 
 ## Definizione delle relazioni della base di dati in linguaggio SQL
 ```sql
-DROP DATABASE IF EXISTS prova;
-CREATE DATABASE prova;
-USE prova;
+DROP DATABASE IF EXISTS Olimpiadi_di_Informatica;
+CREATE DATABASE Olimpiadi_di_Informatica;
+USE Olimpiadi_di_Informatica;
 
 CREATE TABLE istituto (
     nome varchar(20),
@@ -77,25 +76,20 @@ CREATE TABLE gara (
     id_gara int auto_increment primary key,
     id_fase int,
     cap_sede varchar(30),
+    data_esecuzione Date,
     foreign key(cap_sede) references sede (cap_sede),
     foreign key(id_fase) references fase (id_fase)
 );
 
-CREATE TABLE partecipa_squadra (
-    id_squadra int,
-    id_gara int,
-    posizione int,
-    foreign key(id_squadra) references squadra (id_squadra),
-    foreign key(id_gara) references gara (id_gara)
-);
-
-CREATE TABLE partecipa_singolo (
+CREATE TABLE partecipa(
     cf_atleta varchar(20),
     id_gara int,
     posizione int,
+    puneggio int,
     foreign key(cf_atleta) references atleta (cf),
     foreign key(id_gara) references gara (id_gara)
 )
+
 ```
 ## La seguenti interrogazioni espresse in linguaggio SQL
 - stampare l’elenco degli atleti raggruppati per squadre per ogni singola fase:
