@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+body{
+    font-family: 'Roboto', sans-serif;
+}
+.center-div{
+    background-color: transparent;
+    height: 580px;
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 70px;
+}
+.visualizza-classifca{
+    margin-top: 100px;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+    border-radius: 5px;
+    padding: 30px;
+}
+.dropdown-div{
+    margin: 10px;   
+}
+/*=========================================*/
+/*STANDARD CLASSES*/
+.color-white{  color:white !important;  }
+.color-purple{  color: rgb(119, 31, 235) !important;  }
+.bg-purple{  background-color: rgb(119, 31, 235) !important;  }
+.form-control{  border-color: rgb(119, 31, 235) !important;  }
+.dropdown-menu{  border-color: rgb(174, 123, 240) !important;  }
+.button-white:active{ opacity: 0.7; }
+.btn-purple:active{  opacity: 0.7;  }
+.link-white:active {  color: white; }
+.link-white:hover {  color: white; }
+.orizotal-separator{
+    width: 40px;
+    color: rgb(111, 80, 248);
+    opacity: 1;
+    margin-top: 1px;
+}
+.link-white{
+    text-decoration: none;
+    color: white;
+}
+
+.btn-purple{ 
+    background-color:  rgb(119, 31, 235) ;
+    border: 1px solid rgb(70, 19, 136);
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.button-white{
+    background-color:  rgb(255, 255, 255) ;
+    border: 1px solid rgb(194, 161, 236);
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 30px;
+}
+.admin-button{
+    margin: 30px;
+}
+/*=========================================*/
+/*FOOTER*/
+.footers-footer{
+    height: 200px;   
+}
+.footer-column{
+    color: white;
+    padding-left: 150px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+/*=========================================*/
+.white-logo{  fill: white !important;  }
