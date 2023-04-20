@@ -242,4 +242,58 @@ SELECT squadra.id_squadra, count(atleta.cf), AVG(atleta.eta) FROM atleta
 //da inserire
 
 ## Un sito Internet che presenti al pubblico le classifiche delle diverse gare.
-//da inserire
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Scegli una fase</h2>
+    <form method="get">
+        <select name="Fase" onChange="this.form.submit()">
+            <option value="" selected> <b>Scegli una fase</b>  </option>
+            <?php
+                session_start();
+                if (isset($_GET['Fase'])){
+                    $_SESSION['Fase'] = $_GET['Fase'];
+                }else{
+                    $_SESSION['Fase'] = 1;
+                }
+
+
+                $connection = new mysqli("localhost","root","", "Olimpiadi_di_Informatica");
+                $richiesta = "select * from fase";
+                $result = $connection -> query($richiesta);
+                while($row = $result->fetch_assoc()){
+                    echo "<option value='" . $row['id_fase'] . "'>" . $row['descrizione'] . "</option>";
+                }
+            ?>
+        </select>
+    </form>
+    <table>
+        <?php
+            if (isset($_SESSION['Fase'])){
+                $richiesta = "SELECT partecipa.posizione, squadra.nome FROM squadra
+                            INNER JOIN partecipa ON  partecipa.id_squadra = squadra.id_squadra
+                            INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                            INNER JOIN fase ON fase.id_fase = gara.id_fase
+                            WHERE fase.id_fase = " . $_SESSION['Fase'] . "
+                            ORDER BY partecipa.posizione;";
+                $result = $connection -> query($richiesta);
+                while($row = $result->fetch_assoc()){
+                echo "  <tr>
+                            <td>" . $row['posizione'] . " </td>
+                            <td>" . $row['nome'] . "</td>
+                        </tr>";
+                }
+            }
+        ?>
+        
+    </table>
+</body>
+</html>
+```
