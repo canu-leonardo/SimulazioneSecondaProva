@@ -46,16 +46,17 @@ CREATE TABLE istituto (
 
 CREATE TABLE sede (
     nome varchar(20),
-    cap_sede varchar(20)  not null primary key
+    cap_sede varchar(20) not null primary key
 );
 
 CREATE TABLE fase (
     id_fase int not null primary key,
-    descrizione varchar(20)
+    descrizione varchar(20),
+    record int
 );
 
 CREATE TABLE squadra (
-    id_squadra int primary key,
+    id_squadra int primary key auto_increment,
     nome varchar(20),
     cap_istituto varchar(20),
     foreign key (cap_istituto) references istituto (cap_istituto)
@@ -64,10 +65,11 @@ CREATE TABLE squadra (
 CREATE TABLE atleta (
     nome varchar(20),
     cognome varchar(20),
-    eta varchar(20),
+    eta int,
     cap_istituto varchar(20),
     cf varchar(20) not null primary key,
     id_squadra int,
+  	nazioalità varchar(30),
     foreign key (id_squadra) references squadra (id_squadra),
     foreign key (cap_istituto) references istituto (cap_istituto)
 );
@@ -82,47 +84,159 @@ CREATE TABLE gara (
 );
 
 CREATE TABLE partecipa(
-    cf_atleta varchar(20),
-    id_gara int,
+    id_squadra int not null,
+    id_gara int not null,
     posizione int,
-    puneggio int,
-    foreign key(cf_atleta) references atleta (cf),
+    punteggio int,
+    foreign key(id_squadra) references squadra (id_squadra),
     foreign key(id_gara) references gara (id_gara)
 )
-
 ```
+## Riempimento database consigliato per i test 
+```sql
+use Olimpiadi_di_Informatica;
+
+insert into istituto
+	values ("Istituto1", "10010"),
+  ("Istituto2", "10020"),
+  ("Istituto3", "10030"),
+  ("Istituto4", "10040"),
+  ("Istituto5", "10050"),
+  ("Istituto6", "10060"),
+  ("Istituto7", "10070");
+ 
+insert into sede 
+	values ("Sede1", "80010"),
+  ("Sede2", "80020"),
+  ("Sede3", "80030"),
+  ("Sede4", "80040"),
+  ("Sede5", "80050"),
+  ("Sede6", "80060"),
+  ("Sede7", "80070");
+  
+insert into fase 
+ 	values ( 1, "Scolastica", 9000),
+  ( 2, "Regionale", 8000),
+  ( 3, "Nazionale", 1000),
+  ( 4, "Internazionale", 800);
+ 
+ insert into squadra (nome, cap_istituto)
+ 	values ("Squadra1", "10010"),# id 1
+  ("Squadra2", "10020"),# id 2
+  ("Squadra3", "10030"),# id 3
+  ("Squadra4", "10050"),# id 4
+  ("Squadra5", "10060"),# id 5
+  ("Squadra6", "10070");# id 6
+  
+insert into atleta 
+	values ("Atleta1", "Atleta11", 17, "10010", "ABC123", 1, "Italia"),
+  ("Atleta2", "Atleta12" , 16, "10010", "ABC1234", 2, "Italia"),
+  ("Atleta3", "Atleta13" , 18, "10030", "ABC1235", 4, "Francia"),
+  ("Atleta4", "Atleta14" , 19, "10010", "ABC1236", 5, "Italia"),
+  ("Atleta5", "Atleta15" , 22, "10060", "ABC1237", 6, "Inghilterra"),
+  ("Atleta6", "Atleta16" , 77, "10060", "ABC1238", 5, "Italia"),
+  ("Atleta7", "Atleta17" , 17, "10060", "ABC1239", 5, "Svizzera"),
+  ("Atleta1", "Atleta18" , 16, "10010", "ABCD123", 6, "Italia"),
+  ("Atleta8", "Atleta19" , 20, "10070", "ABCE123", 3, "Germania"),
+  ("Atleta9", "Atleta110", 10, "10070", "ABCF123", 1, "Italia");
+
+  
+insert into gara (id_fase, cap_sede, data_esecuzione)
+	values (1, "80070", "2023-10-12"), # id 1
+  (2, "80010", "2023-10-13"), # id 2
+  (3, "80020", "2023-10-01"), # id 3
+  (1, "80030", "2023-10-20"), # id 4
+  (4, "80040", "2023-10-30"), # id 5
+  (3, "80050", "2023-11-01"), # id 6
+  (2, "80020", "2023-10-02"); # id 7
+  
+insert into partecipa
+	values ( 2, 3, 3, 300),
+  ( 3, 3, 3, 301),
+  ( 4, 1, 3, 302),
+  ( 6, 4, 1, 303),
+  ( 1, 5, 3, 304),
+  ( 5, 1, 3, 305),
+  ( 6, 3, 3, 306),
+  ( 3, 4, 2, 307);   
+```
+
+
 ## La seguenti interrogazioni espresse in linguaggio SQL
 - stampare l’elenco degli atleti raggruppati per squadre per ogni singola fase:
 ```sql
-SELECT
+SELECT fase.descrizione, atleta.nome, squadra.nome FROM atleta
+  INNER JOIN squadra ON squadra.id_squadra = atleta.id_squadra
+  INNER JOIN partecipa ON partecipa.id_squadra = squadra.id_squadra
+  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+  INNER JOIN fase ON fase.id_fase = gara.id_gara  
+  ORDER BY  fase.id_fase, squadra.id_squadra;
 ```
 - dato il nome di un atleta stampare i risultati ottenuti nelle diverse gare alle quali ha partecipato:
 ```sql
-SELECT
+SELECT fase.id_fase, partecipa.punteggio, partecipa.posizione FROM partecipa
+  INNER JOIN squadra ON squadra.id_squadra = partecipa.id_squadra
+  INNER JOIN atleta ON atleta.id_squadra = squadra.id_squadra
+  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+  INNER JOIN fase ON fase.id_fase = gara.id_fase
+  WHERE atleta.nome = "NomeDato" # da cambiare, per esempio con ' Atleta1 '
+  ORDER BY fase.id_fase;
 ```
 - stampare il calendario delle gare:
 ```sql
-SELECT
+SELECT gara.* FROM gara
+  ORDER BY gara.data_esecuzione;
 ```
 - stampare una scheda informativa (cognome, nome, istituto scolastico di provenienza, nazionalità) del vincitore e della squadra vincitrice:
 ```sql
-SELECT
+SELECT squadra.nome, istituto.nome FROM squadra
+  INNER JOIN istituto ON istituto.cap_istituto
+  INNER JOIN partecipa ON partecipa.id_squadra = squadra.id_squadra
+  INNER JOIN gara ON partecipa.id_gara = gara.id_gara
+  INNER JOIN fase ON fase.id_fase = gara.id_gara
+  WHERE fase.id_fase = 4
+    AND partecipa.posizione = 1;
+	#in questa query, a causa del fatto che la tabella 'partecipa' racchiude sia i singoli che le squadre, non è possibile distinguere l'atleta singolo vincitore 
 ```
 - stampare la classifica per ciascuna gara (a parità di punteggio vengono privilegiati gli atleti più giovani):
 ```sql
-SELECT
+SELECT gara.id_gara, partecipa.posizione, atleta.nome, atleta.cognome, atleta.eta, partecipa.punteggio FROM atleta
+  INNER JOIN squadra ON squadra.id_squadra = atleta.id_squadra
+  INNER JOIN partecipa ON  partecipa.id_squadra = squadra.id_squadra
+  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+  ORDER BY gara.id_gara, partecipa.punteggio, atleta.eta;
 ```
 - aggiornare, per ciascuna fase (scolastica-regionale-nazionale-internazionale) gli eventuali punteggi record:
 ```sql
-SELECT
+UPDATE fase
+	SET fase.record = valore # valore inviato dal back-end
+	WHERE fase.id_fase = 1;	# fase scolastica
+UPDATE fase
+	SET fase.record = valore # valore inviato dal back-end
+	WHERE fase.id_fase = 2;	# fase regionale
+UPDATE fase
+	SET fase.record = valore # valore inviato dal back-end
+  WHERE fase.id_fase = 3;	# fase nazionale
+UPDATE fase
+	SET fase.record = valore # valore inviato dal back-end
+	WHERE fase.id_fase = 4;	# fase internazionale
+## il controllo sul fatto che il punteggio sia effetivamente un record abbiamo deciso che verrebbe inserito nel Back-End 
 ```
 - calcolare il punteggio medio ottenuto durante la prima selezione, per ciascun istituto scolastico:
 ```sql
-SELECT
+SELECT istituto.nome, AVG(partecipa.punteggio) FROM partecipa
+  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+  INNER JOIN fase ON fase.id_fase = gara.id_gara
+  INNER JOIN squadra ON squadra.id_squadra = partecipa.id_squadra
+  INNER JOIN istituto ON istituto.cap_istituto = squadra.cap_istituto
+  WHERE fase.id_fase = 1
+  GROUP BY squadra.cap_istituto;
 ```
 - stampare per ciascuna squadra il numero di “atleti” partecipanti e l’età media:
 ```sql
-SELECT
+SELECT squadra.id_squadra, count(atleta.cf), AVG(atleta.eta) FROM atleta
+  INNER JOIN squadra ON squadra.id_squadra = atleta.id_squadra
+  GROUP BY squadra.id_squadra ;
 ```
 ## L’interfaccia utente che il candidato intende proporre per interagire con la base di dati e codificare in un linguaggio di programmazione a scelta un segmento significativo del progetto realizzato.
 //da inserire
