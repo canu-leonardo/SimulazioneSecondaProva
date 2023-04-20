@@ -244,13 +244,8 @@ SELECT squadra.id_squadra, count(atleta.cf), AVG(atleta.eta) FROM atleta
 ## Un sito Internet che presenti al pubblico le classifiche delle diverse gare.
 ```php
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<html>
+<head></head>
 <body>
     <h2>Scegli una fase</h2>
     <form method="get">
@@ -263,8 +258,6 @@ SELECT squadra.id_squadra, count(atleta.cf), AVG(atleta.eta) FROM atleta
                 }else{
                     $_SESSION['Fase'] = 1;
                 }
-
-
                 $connection = new mysqli("localhost","root","", "Olimpiadi_di_Informatica");
                 $richiesta = "select * from fase";
                 $result = $connection -> query($richiesta);
