@@ -23,36 +23,33 @@
     </nav>
 
     <div class="dropdown">
-        <button class="btn bg-white button-white color-purple admin-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Admin
-        </button>
+        <button class="btn bg-white button-white color-purple admin-button" data-bs-toggle="dropdown" aria-expanded="false" id="AdminButton">  Admin  </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <div class="dropdown-div">
-                <form action="./index.php" method="get">
-                    <div class="mb-3">
-                        <center>
-                            <label class="form-label">Inserisci la <b>Password</b> di admin</label>
-                        </center>
-                        <input type="password" class="form-control" id="CF">
-                    </div>
+                <div class="mb-3">
                     <center>
-                        <input type="button" value="Invio" class="btn btn-purple color-white">
+                        <label class="form-label">Inserisci la <b>Password</b> di admin</label>
                     </center>
+                    <input type="password" class="form-control" id="AdminPassw">
+                </div>
+                <center>
+                    <button class="btn btn-purple color-white" onclick="AdminVerification()"> Invio </button>
+                </center>
                 </form>
             </div>
         </ul>
     </div>
 
     <div class="center-div">
-        <form action="" method="post">
+        <form action="./Pages/Pagina_Atleta.php" method="post">
             <div class="mb-3">
                 <center>
                     <label class="form-label">Inserisci il tuo <b>Codice Fiscale</b> per visualizzare le tue informazioni</label>
                 </center>
-                <input type="text" class="form-control" id="CF">
+                <input type="text" class="form-control" name="CF">
             </div>
             <center>
-                <input type="button" value="Invio" class="btn btn-purple color-white">
+                <input type="submit" value="Invio" class="btn btn-purple color-white">
             </center>
         </form>
 
@@ -90,6 +87,15 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script>
+        function AdminVerification() {
+            const form = document.getElementById("AdminPassw");
+            if(form.value == "Password"){
+                window.location.href = "./Pages/Admin.php";
+            }else{
+                document.getElementById("AdmoinButton").classList.add("error");
+            }
+        }
+    </script>
 </body>
-
 </html>

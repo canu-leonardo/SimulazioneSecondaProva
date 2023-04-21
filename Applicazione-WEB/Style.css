@@ -29,6 +29,7 @@ body{
 .bg-purple{  background-color: rgb(119, 31, 235) !important;  }
 .form-control{  border-color: rgb(119, 31, 235) !important;  }
 .dropdown-menu{  border-color: rgb(174, 123, 240) !important;  }
+.error{border-color: red;}
 .button-white:active{ opacity: 0.7; }
 .btn-purple:active{  opacity: 0.7;  }
 .link-white:active {  color: white; }
