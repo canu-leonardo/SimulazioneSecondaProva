@@ -1,5 +1,5 @@
 <?php
     $IP = 'localhost';
-    $databaseNome = 'Olimpiadi_di_Informatica';
+    $databaseNome = 'olimpiadi_di_informatica';
     $cennection = new mysqli($IP, 'root', '', $databaseNome);
 ?>
