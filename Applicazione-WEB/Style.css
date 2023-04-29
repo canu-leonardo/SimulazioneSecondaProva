@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-body{
-    font-family: 'Roboto', sans-serif;
-}
+*{ font-family: 'Roboto', sans-serif; }
 .center-div{
     background-color: transparent;
     height: 580px;
@@ -19,9 +17,15 @@ body{
     border-radius: 5px;
     padding: 30px;
 }
-.dropdown-div{
-    margin: 10px;   
+.dropdown-div{ margin: 10px;    }
+.dropdown-item:hover{
+    background-color: transparent;
 }
+.dropdown-item:active{
+    background-color: transparent;
+    color: black;
+}
+
 /*=========================================*/
 /*STANDARD CLASSES*/
 .color-white{  color:white !important;  }
@@ -75,3 +79,83 @@ body{
 }
 /*=========================================*/
 .white-logo{  fill: white !important;  }
+/*=========================================*/
+/*Classi Percorso*/
+.PercorsoAttivo{ height: 10px; background-color: rgb(119, 31, 235); }
+.PercorsoNonAttivo{ height: 10px; background-color: rgb(221, 205, 235); }
+.percorso{ margin-bottom: 30px; }
+.PercorsoAttivo::after{
+    content: "";
+    display: inline-block;
+    position: relative;
+    top:-5px;
+    left: 99%;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    background-color: rgb(119, 31, 235);
+}
+
+.percorso :nth-child(1)::before{
+    content: "Scolastica";
+    display: inline-block;
+    position:relative;
+    z-index: 200;
+    width: 1%;
+    top:15px;
+    left: 85%;
+}
+.percorso :nth-child(2)::before{
+    content: "Regionale";
+    display: inline-block;
+    position:relative;
+    z-index: 200;
+    width: 1%;
+    top:15px;
+    left: 85%;
+}
+.percorso :nth-child(3)::before{
+    content: "Nazionale";
+    display: inline-block;
+    position:relative;
+    z-index: 200;
+    width: 1%;
+    top:15px;
+    left: 85%;
+}
+.percorso :nth-child(4)::before{
+    content: "Scolastica";
+    display: inline-block;
+    position:relative;
+    z-index: 200;
+    width: 1%;
+    top:15px;
+    left: 85%;
+}
+/*=========================================*/
+.titoliFasi{
+    background-color: rgb(119, 31, 235);
+    color: white;
+    text-align: center;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
+.DivFase{
+    margin: 30px;
+    background-color: transparent;
+    text-align: center;
+    background-color: rgb(244, 235, 252);   
+    border: 1px solid rgb(119, 31, 235);
+    border-radius: 10px;
+    padding: 10px;
+}
+.DivFase p{
+    text-align: justify;
+    font-size: 18px;
+    
+}
+.lista-atleti{
+    list-style-type: none;
+}

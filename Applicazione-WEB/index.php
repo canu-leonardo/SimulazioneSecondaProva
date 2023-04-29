@@ -33,7 +33,7 @@
                     <input type="password" class="form-control" id="AdminPassw">
                 </div>
                 <center>
-                    <button class="btn btn-purple color-white" onclick="AdminVerification()"> Invio </button>
+                    <button class="btn btn-purple color-white" onclick="AdminVerification()" id="AdminButton"> Invio </button>
                 </center>
                 </form>
             </div>
@@ -46,7 +46,7 @@
                 <center>
                     <label class="form-label">Inserisci il tuo <b>Codice Fiscale</b> per visualizzare le tue informazioni</label>
                 </center>
-                <input type="text" class="form-control" name="CF">
+                <input type="text" class="form-control" name="CF" required>
             </div>
             <center>
                 <input type="submit" value="Invio" class="btn btn-purple color-white">
@@ -59,7 +59,6 @@
                 <a href=""><button class="btn bg-white button-white color-purple">Visualizza</button></a>
             </center>
         </div>
-
     </div>
 
 
@@ -88,12 +87,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script>
+        function convertToHash(str) {
+            let hashString = 0;
+            for (let character of str) {
+                let charCode = character.charCodeAt(0);
+                hashString = hashString << 5 - hashString;
+                hashString += charCode;
+                hashString |= hashString;
+            }
+            return hashString;
+        }
+        // Questa funzione per l'hashing è stata torvata on-line, al seguente link
+        // https://www.tutorialspoint.com/how-to-create-a-hash-from-a-string-in-javascript
+
         function AdminVerification() {
+            const password = convertToHash("password");
             const form = document.getElementById("AdminPassw");
-            if(form.value == "Password"){
+            if(convertToHash(form.value) == password){
+                console.log(convertToHash(form.value));
                 window.location.href = "./Pages/Admin.php";
             }else{
-                document.getElementById("AdmoinButton").classList.add("error");
+                document.getElementById("AdminButton").classList.add("error"); 
             }
         }
     </script>

@@ -25,7 +25,20 @@
    
     
     <div class="center-div">
-        <a href=""><button class="btn btn-purple color-white">Admin</button></a>
+        <center>
+            <a href="">
+                <button></button>
+            </a><a href="">
+                <button></button>
+            </a><a href="">
+                <button></button>
+            </a><a href="">
+                <button></button>
+            </a>
+        </center>
+        <center>
+            <a href="../index.php"><button class="btn btn-purple color-white">Home</button></a>
+        </center>
     </div>
 
     <div class="footer">
