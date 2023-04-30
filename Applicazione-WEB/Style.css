@@ -17,10 +17,8 @@
     border-radius: 5px;
     padding: 30px;
 }
-.dropdown-div{ margin: 10px;    }
-.dropdown-item:hover{
-    background-color: transparent;
-}
+.dropdown-div{  margin: 10px;    }
+.dropdown-item:hover{  background-color: transparent;  }
 .dropdown-item:active{
     background-color: transparent;
     color: black;
@@ -32,12 +30,18 @@
 .color-purple{  color: rgb(119, 31, 235) !important;  }
 .bg-purple{  background-color: rgb(119, 31, 235) !important;  }
 .form-control{  border-color: rgb(119, 31, 235) !important;  }
+.form-select{ border-color: rgb(119, 31, 235) !important; }
 .dropdown-menu{  border-color: rgb(174, 123, 240) !important;  }
 .error{border-color: red;}
 .button-white:active{ opacity: 0.7; }
 .btn-purple:active{  opacity: 0.7;  }
 .link-white:active {  color: white; }
 .link-white:hover {  color: white; }
+.btn-admin{
+    width: 50% !important;
+    margin: 3px;
+    border-radius: 10px;
+}
 .orizotal-separator{
     width: 40px;
     color: rgb(111, 80, 248);
@@ -63,14 +67,10 @@
     padding-right: 15px;
     margin-top: 30px;
 }
-.admin-button{
-    margin: 30px;
-}
+.admin-button{  margin: 30px;  }
 /*=========================================*/
 /*FOOTER*/
-.footers-footer{
-    height: 200px;   
-}
+.footers-footer{  height: 200px;  }
 .footer-column{
     color: white;
     padding-left: 150px;
@@ -132,6 +132,10 @@
     top:15px;
     left: 85%;
 }
+.table-classifica{
+    margin: 30px;
+    width: 630px;
+}
 /*=========================================*/
 .titoliFasi{
     background-color: rgb(119, 31, 235);
@@ -156,6 +160,4 @@
     font-size: 18px;
     
 }
-.lista-atleti{
-    list-style-type: none;
-}
+.lista-atleti{  list-style-type: none;  }

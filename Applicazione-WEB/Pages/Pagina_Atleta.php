@@ -12,28 +12,27 @@
 </head>
 
 <body>
+    <!--NAVBAR-->
+    <?php
+        include "./../navBar.php";
+    ?>
 
-    <nav class="navbar navbar-light bg-purple">
-        <div class="container-fluid">
-            <p class="navbar-brand color-white">
-                <img src="/Resources/LOGO.svg" alt="" width="30" height="24" class="d-inline-block white-logo ">
-                Olimpiadi di Informatica
-            </p>
-        </div>
-    </nav>
+
+    <!--CONTENT-PAGE-->
     <div class="center-div">
         <div class="row percorso">
-            <div id="Path1" class="col-3 tracciaPercorso PercorsoNonAttivo"></div>
+            <div id="Path1" class="col-3 PercorsoNonAttivo"></div>
             <div id="Path2" class="col-3 PercorsoNonAttivo"></div>
             <div id="Path3" class="col-3 PercorsoNonAttivo"></div>
             <div id="Path4" class="col-3 PercorsoNonAttivo"></div>
         </div>
         <?php     
             include "../Connect.php";
+                
             #############################################################################################
             ## query per ricavare l' id della squadra dell'atleta
-            $query = "SELECT atleta.id_squadra FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
-            $result = $cennection -> query($query);
+            $queryPerNomeSquadra = "SELECT atleta.id_squadra FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
+            $result = $cennection -> query($queryPerNomeSquadra);
 
             if  ($result -> num_rows > 0) {
                 $row = $result -> fetch_assoc();
@@ -74,23 +73,23 @@
                 echo "</center>";
 
                 #############################################################################################
-                ## query per ricavare i dati della partecipazione alle varie gare            
+                ## query per ricavare i dati della partecipazione alle varie gare        
                 $queryFase1 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
-                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 1";
+                    INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                    INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                    WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 1";
                 $queryFase2 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
-                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 2";
+                    INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                    INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                    WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 2";
                 $queryFase3 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
-                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 3";
+                    INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                    INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                    WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 3";
                 $queryFase4 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
-                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 4";
+                    INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                    INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                    WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 4";
                 #############################################################################################
                 ## controlli per visualizzare i dati della prima fase
                 echo "<div class='DivFase'>";
@@ -100,11 +99,11 @@
                     $row_provvisorio3 = $result1 -> fetch_assoc();
                     echo "<p>Fase <b>scolastica</b> superata il giorno <b>" . $row_provvisorio3['data_esecuzione'] . "</b> nella sede di <b>" . $row_provvisorio3['nome'] . "</b> con un punteggio di <b>" . $row_provvisorio3['punteggio'] . "</b>. La posizione raggiuna e': <b>" . $row_provvisorio3['posizione'] . "</b> .</p> ";                 
                 #############################################################################################
-                ## script per aggiornare il 'percorso'
+                ## script per aggiornare il 'percorso' della fase 1
                     echo "
                         <script>
                             const sezione1 = document.getElementById('Path1');
-                            sezione1.classList.remove('PercorsoNonAttivo')
+                            sezione1.classList.remove('PercorsoNonAttivo');
                             sezione1.classList.add('PercorsoAttivo');
                         </script>
                     ";
@@ -120,11 +119,11 @@
                         echo "<p>Fase <b>regionale</b> superata il giorno <b>" . $row_provvisorio4['data_esecuzione'] . "</b> nella sede di <b>" . $row_provvisorio4['nome'] . "</b> con un punteggio di <b>" . $row_provvisorio4['punteggio'] . "</b>. La posizione raggiuna e': <b>" . $row_provvisorio4['posizione'] . "</b> .</p> ";   
                     }
                 #############################################################################################
-                ## script per aggiornare il 'percorso'
+                ## script per aggiornare il 'percorso' della fase 2
                     echo "
                         <script>
                             const sezione2 = document.getElementById('Path2');
-                            sezione2.classList.remove('PercorsoNonAttivo')
+                            sezione2.classList.remove('PercorsoNonAttivo');
                             sezione2.classList.add('PercorsoAttivo');
                         </script>
                     ";
@@ -140,11 +139,11 @@
                         echo "<p>Fase <b>nazionale</b> superata il giorno <b>" . $row_provvisorio5['data_esecuzione'] . "</b> nella sede di <b>" . $row_provvisorio5['nome'] . "</b> con un punteggio di <b>" . $row_provvisorio5['punteggio'] . "</b>. La posizione raggiuna e': <b>" . $row_provvisorio5['posizione'] . "</b> .</p> ";   
                     }
                 #############################################################################################
-                ## script per aggiornare il 'percorso'
+                ## script per aggiornare il 'percorso' della fase 3
                     echo "
                         <script>
                             const sezione3 = document.getElementById('Path3');
-                            sezione3.classList.remove('PercorsoNonAttivo')
+                            sezione3.classList.remove('PercorsoNonAttivo');
                             sezione3.classList.add('PercorsoAttivo');
                         </script>
                     ";
@@ -160,11 +159,11 @@
                         echo "<p>Fase <b>internazionale</b> superata il giorno <b>" . $row_provvisorio6['data_esecuzione'] . "</b> nella sede di <b>" . $row_provvisorio6['nome'] . "</b> con un punteggio di <b>" . $row_provvisorio6['punteggio'] . "</b>. La posizione raggiuna e': <b>" . $row_provvisorio6['posizione'] . "</b> .</p> ";   
                     }
                 #############################################################################################
-                ## script per aggiornare il 'percorso'
+                ## script per aggiornare il 'percorso' della fase 4
                     echo "
                         <script>
                             const sezione4 = document.getElementById('Path4');
-                            sezione4.classList.remove('PercorsoNonAttivo')
+                            sezione4.classList.remove('PercorsoNonAttivo');
                             sezione4.classList.add('PercorsoAttivo');
                         </script>
                     ";
@@ -178,28 +177,10 @@
         </center>
     </div>    
     <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> 
-    <div class="footer">
-        <div class="bg-purple" style="height: 50px; margin-top: 30px;">
-        </div>
-        <div class="bg-dark footers-footer">
-            <div class="row">
-                <div class="col-4 footer-column">
-                    <b>Team</b>
-                    <hr class="orizotal-separator">
-                    Canu Leonardo<br>
-                    Samue Maranghi
-                </div>
-                <div class="col-4 footer-column">
-                    <b>Sorce Code</b>
-                    <hr class="orizotal-separator">
-                    <a href="https://github.com/canu-leonardo/SimulazioneSecondaProva" class="link-white" target="_blank">Git hub</a>
-                </div>
-                <div class="col-4 footer-column">
-
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--FOOTER-->
+    <?php
+        include "../Footer.php";
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

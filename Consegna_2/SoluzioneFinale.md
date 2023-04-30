@@ -1,5 +1,15 @@
 # Soluzione della prova
 
+## Indice
+- [Analisi della realtà di riferimento e soluzione ipotizzata](#analisi-della-realtà-di-riferimento-e-soluzione-ipotizzata)
+- [Schema concettuale della base di dati](#schema-concettuale-della-base-di-dati)
+- [Schema logico della base di dati](#schema-logico-della-base-di-dati)
+- [Definizione delle relazioni della base di dati in linguaggio SQL](#definizione-delle-relazioni-della-base-di-dati-in-linguaggio-sql)
+- [Riempimento della base di dati consigliato per i test](#riempimento-della-base-di-dati-consigliato-per-i-test)
+- [Le seguenti interrogazioni espresse in linguaggio SQL](#le-seguenti-interrogazioni-espresse-in-linguaggio-sql)
+- [L’interfaccia utente che il candidato intende proporre](#linterfaccia-utente-che-il-candidato-intende-proporre-per-interagire-con-la-base-di-dati-e-codificare-in-un-linguaggio-di-programmazione-a-scelta-un-segmento-significativo-del-progetto-realizzato)
+- [Un sito Internet che presenti al pubblico le classifiche delle diverse gare](#un-sito-internet-che-presenti-al-pubblico-le-classifiche-delle-diverse-gare)
+
 ## Analisi della realtà di riferimento e soluzione ipotizzata
 
 ### Esposizione del problema
@@ -84,7 +94,7 @@ CREATE TABLE fase (
 
 CREATE TABLE squadra (
     id_squadra int primary key auto_increment,
-    nome varchar(20),
+    nome varchar(20) UNIQUE,
     cap_istituto varchar(20),
     foreign key (cap_istituto) references istituto (cap_istituto)
 );
@@ -96,7 +106,7 @@ CREATE TABLE atleta (
     cap_istituto varchar(20),
     cf varchar(20) not null primary key,
     id_squadra int,
-    nazioalità varchar(30),
+    nazionalità varchar(30),
     foreign key (id_squadra) references squadra (id_squadra),
     foreign key (cap_istituto) references istituto (cap_istituto)
 );
@@ -120,7 +130,7 @@ CREATE TABLE partecipa(
 )
 ```
 
-## Riempimento database consigliato per i test
+## Riempimento della base di dati consigliato per i test
 
 ```sql
 use Olimpiadi_di_Informatica;
@@ -190,7 +200,7 @@ insert into partecipa
   ( 3, 4, 2, 307);
 ```
 
-## La seguenti interrogazioni espresse in linguaggio SQL
+## Le seguenti interrogazioni espresse in linguaggio SQL
 
 - stampare l’elenco degli atleti raggruppati per squadre per ogni singola fase:
 
@@ -292,97 +302,102 @@ La home page avrà questo aspetto:
 Abbiamo deciso di inserire il codice della pagina di visualizazione delle informazioni dell'atleta, alla quale si sccede inserendo il proprio codice fiscale.
 
 ```php
-<?php
-  include "../Connect.php";
-#############################################################################################
-## query per ricavare l' id della squadra dell'atleta
-  $query = "SELECT atleta.id_squadra FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
-  $result = $cennection -> query($query);
-  $row = $result->fetch_assoc();
-  $squadra = $row['id_squadra'];
+<?php     
+            include "../Connect.php";
+            #############################################################################################
+            ## query per ricavare l' id della squadra dell'atleta
+            $query = "SELECT atleta.id_squadra FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
+            $result = $cennection -> query($query);
 
-#############################################################################################
-## query per ricavare il nome della squadra
-  $query_NomeSquadra = "SELECT squadra.nome FROM squadra WHERE squadra.id_squadra = " . $squadra ;
-  $result_NomeSquadra = $cennection -> query($query_NomeSquadra);
-  $row_NomeSquadra = $result_NomeSquadra -> fetch_assoc();
-  $nomeSquadra = $row_NomeSquadra['nome'];
+            if  ($result -> num_rows > 0) {
+                $row = $result -> fetch_assoc();
+                $squadra = $row['id_squadra'];
+                
+                #############################################################################################
+                ## query per ricavare il nome della squadra
+                $query_NomeSquadra = "SELECT squadra.nome FROM squadra WHERE squadra.id_squadra = " . $squadra ;
+                $result_NomeSquadra = $cennection -> query($query_NomeSquadra);
+                $row_NomeSquadra = $result_NomeSquadra -> fetch_assoc(); 
+                $nomeSquadra = $row_NomeSquadra['nome'];
 
-#############################################################################################
-## query per ricavare i memri della squadra
-  $query_partecipantiSquadra = "SELECT atleta.nome, atleta.cognome FROM atleta WHERE atleta.id_squadra = " . $squadra ;
-  $result_partecipantiSquadra = $cennection -> query($query_partecipantiSquadra);
+                #############################################################################################
+                ## query per ricavare i memri della squadra
+                $query_partecipantiSquadra = "SELECT atleta.nome, atleta.cognome FROM atleta WHERE atleta.id_squadra = " . $squadra ;
+                $result_partecipantiSquadra = $cennection -> query($query_partecipantiSquadra);
 
-#############################################################################################
-## controllo per distinguere da giocantore singolo a squadra
-  if ($result_partecipantiSquadra -> num_rows > 1){
-    echo "<h2>Informazioni della squadra " . $nomeSquadra . "</h2>";
-    echo "<h3>Partecipanti:</h3>";
-    echo "<ul>";
-    while ($row = $result_partecipantiSquadra -> fetch_assoc()){
-      echo "<li>" . $row['nome'] . " " . $row['cognome'] . "</li>";
-    }
-    echo "</ul>";
-  }else{
-    $query = "SELECT atleta.nome FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
-    $result_nomeAtleta = $cennection -> query($query);
-    $row = $result_nomeAtleta -> fetch_assoc();
-    echo "<h2>Informazioni del partecipante " . $row['nome'] . "</h2>";
-  }
+                #############################################################################################
+                ## controllo per distinguere da giocantore singolo a squadra
+                if ($result_partecipantiSquadra -> num_rows > 1){
+                    echo "<h2>Informazioni della squadra " . $nomeSquadra . "</h2>";
+                    echo "<h3>Partecipanti:</h3>";
+                    echo "<ul>";
+                    while ($row_provvisorio = $result_partecipantiSquadra -> fetch_assoc()){
+                        echo "<li>" . $row_provvisorio['nome'] . " " . $row_provvisorio['cognome'] . "</li>";
+                    }
+                    echo "</ul>";
+                }else{
+                    $query = "SELECT atleta.nome FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
+                    $result_nomeAtleta = $cennection -> query($query); 
+                    $row_provvisorio2 = $result_nomeAtleta -> fetch_assoc(); 
+                    echo "<h2>Informazioni del partecipante " . $row_provvisorio2['nome'] . "</h2>";
+                }
 
-#############################################################################################
-## query per ricavare i dati della partecipazione alle varie gare
-  $queryFase1 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa
-                  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                  INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                  WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_gara = 1";
-  $queryFase2 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa
-                  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                  INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                  WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_gara = 2";
-  $queryFase3 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa
-                  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                  INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                  WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_gara = 3";
-  $queryFase4 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa
-                  INNER JOIN gara ON gara.id_gara = partecipa.id_gara
-                  INNER JOIN sede ON sede.cap_sede = gara.cap_sede
-                  WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_gara = 4";
-
-#############################################################################################
-## controlli per visualizzare i dati delle varie gare
-  $result1 = $cennection -> query($queryFase1);
-  echo "<h3>Punteggio nella fase scolastica</h3>";
-  if ($result1 -> num_rows != 0){
-    while($row = $result1 -> fetch_assoc()){
-      echo "Hai partecipato alla fase scolastica il giorno " . $row['data_esecuzione'] . " nella sede di " . $row['nome'] . " raggiungendo la " . $row['posizione'] . " posizione, con un punteggio di " . $row['punteggio'] . ". ";
-    }
-  }else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    }
-
-  $result2 = $cennection -> query($queryFase2);
-  echo "<h3>Punteggio nella fase regionale</h3>";
-  if ($result2 -> num_rows != 0){
-  while($row = $result1 -> fetch_assoc()){
-    echo "Hai partecipato alla fase regionale il giorno " . $row['data_esecuzione'] . " nella sede di " . $row['nome'] . " raggiungendo la " . $row['posizione'] . " posizione, con un punteggio di " . $row['punteggio'] . ". ";
-  }
-}else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    }
-
-$result3 = $cennection -> query($queryFase3);
-echo "<h3>Punteggio nella fase nazionale</h3>";
-if ($result3 -> num_rows != 0){
-  while($row = $result1 -> fetch_assoc()){
-    echo "Hai partecipato alla fase nazionale il giorno " . $row['data_esecuzione'] . " nella sede di " . $row['nome'] . " raggiungendo   " . $row['posizione'] . " posizione, con un punteggio di " . $row['punteggio'] . ". ";
-  }
-}else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    }
-
-  $result4 = $cennection -> query($queryFase4);
-  echo "<h3>Punteggio nella fase internazionale</h3>";
-  if ($result4 -> num_rows != 0){
-    while($row = $result1 -> fetch_assoc()){
-      echo "Hai partecipato alla fase internazionale il giorno " . $row['data_esecuzione'] . " nella sede di " . $row['nome'] . " raggiungendo la " . $row['posizione'] . " posizione, con un punteggio di " . $row['punteggio'] . ". ";
-    }
-  }else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    }
+                #############################################################################################
+                ## query per ricavare i dati della partecipazione alle varie gare            
+                $queryFase1 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
+                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 1";
+                $queryFase2 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
+                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 2";
+                $queryFase3 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
+                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 3";
+                $queryFase4 = "SELECT partecipa.posizione, partecipa.punteggio, gara.data_esecuzione, sede.nome FROM partecipa 
+                                INNER JOIN gara ON gara.id_gara = partecipa.id_gara
+                                INNER JOIN sede ON sede.cap_sede = gara.cap_sede
+                                WHERE partecipa.id_squadra = " . $squadra . " AND gara.id_fase = 4";
+                #############################################################################################
+                ## controlli per visualizzare i dati della prima fase
+                $result1 = $cennection -> query($queryFase1);
+                echo "<h3>Punteggio nella fase scolastica</h3>";
+                if ($result1 -> num_rows != 0){
+                    $row_provvisorio3 = $result1 -> fetch_assoc();
+                    echo "Hai partecipato alla fase scolastica il giorno " . $row_provvisorio3['data_esecuzione'] . " nella sede di " . $row_provvisorio3['nome'] . " raggiungendo la " . $row_provvisorio3['posizione'] . " posizione, con un punteggio di " . $row_provvisorio3['punteggio'] . ". ";                 
+                }else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    }  
+                #############################################################################################
+                ## controlli per visualizzare i dati della seconda fase
+                $result2 = $cennection -> query($queryFase2);
+                echo "<h3>Punteggio nella fase regionale</h3>";
+                if ($result2 -> num_rows != 0){
+                    while($row_provvisorio4 = $result2 -> fetch_assoc()){
+                        echo "Hai partecipato alla fase regionale il giorno " . $row_provvisorio4['data_esecuzione'] . " nella sede di " . $row_provvisorio4['nome'] . " raggiungendo la " . $row_provvisorio4['posizione'] . " posizione, con un punteggio di " . $row_provvisorio4['punteggio'] . ". "; 
+                    }
+                }else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    } 
+                #############################################################################################
+                ## controlli per visualizzare i dati della terza fase
+                $result3 = $cennection -> query($queryFase3);
+                echo "<h3>Punteggio nella fase nazionale</h3>";
+                if ($result3 -> num_rows != 0){
+                    while($row_provvisorio5 = $result3 -> fetch_assoc()){
+                        echo "Hai partecipato alla fase nazionale il giorno " . $row_provvisorio5['data_esecuzione'] . " nella sede di " . $row_provvisorio5['nome'] . " raggiungendo la " . $row_provvisorio5['posizione'] . " posizione, con un punteggio di " . $row_provvisorio5['punteggio'] . ". ";
+                    }
+                }else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    } 
+                #############################################################################################
+                ## controlli per visualizzare i dati della quarta fase
+                $result4 = $cennection -> query($queryFase4);
+                echo "<h3>Punteggio nella fase internazionale</h3>";
+                if ($result4 -> num_rows != 0){
+                    while($row_provvisorio6 = $result4 -> fetch_assoc()){
+                        echo "Hai partecipato alla fase internazionale il giorno " . $row_provvisorio6['data_esecuzione'] . " nella sede di " . $row_provvisorio6['nome'] . " raggiungendo la " . $row_provvisorio6['posizione'] . " posizione, con un punteggio di " . $row_provvisorio6['punteggio'] . ". ";
+                    }
+                }else{    echo "la squadra non ha ancora partecipato alla fase oppure non è passata";    } 
+            }else{ echo "<center> <p>Perfavore inserisci un codice fiscale valido</p> </center>"; }  
 ?>
+   
 ```
 
 ## Un sito Internet che presenti al pubblico le classifiche delle diverse gare.
