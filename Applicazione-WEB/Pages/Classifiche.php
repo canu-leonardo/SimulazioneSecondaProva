@@ -24,7 +24,7 @@
         <h2>Scegli una fase</h2>
         <form method="get">
             <select name="Fase" class="form-select" onChange="this.form.submit()">
-                <option value="" selected> <b>Scegli una fase della quale visualizzare la claasifica</b>  </option>
+                <option value="" selected> <b>Scegli una fase della quale visualizzare la classifica</b>  </option>
                 <?php
                     session_start();
                     if (isset($_GET['Fase'])){

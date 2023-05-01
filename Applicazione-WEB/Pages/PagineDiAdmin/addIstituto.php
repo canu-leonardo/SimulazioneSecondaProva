@@ -13,34 +13,39 @@
 
 <body>
 
-    <?php 
-        include'./../../navBar.php'; 
-    ?>
+    <nav class="navbar navbar-light bg-purple">
+        <div class="container-fluid">
+            <p class="navbar-brand color-white">
+                <img src="/Resources/LOGO.svg" alt="" width="30" height="24" class="d-inline-block white-logo ">
+                Olimpiadi di Informatica
+            </p>
+        </div>
+    </nav>
 
     <?php
-        if(isset($_POST['CF'])){
-            include './../../Connect.php';
-            $query = "DELETE FROM atleta WHERE atleta.cf = '" . $_POST['CF'] . "'";
-            $result = $cennection -> query($query);
+        if (isset($_POST['CAP'])){
+            include '../../Connect.php';
+            $query = "INSERT INTO istituto VALUES ('" . $_POST['nome'] . "', '" . $_POST['CAP'] . "')";
+            $cennection -> query($query);
+            session_start();
+            $_SESSION['ccc'] = $query;
         }
     ?>
-
+    
     <div class="center-div">
-        <form action="./removeAtleta.php" method="post">
-        <label class="form-label">Seleziona l'atleta che vuoi rimuovere dal database</label>
-            <select name="CF" class="form-select" onChange="this.form.submit()">
-                <option value="" selected></option>
-            <?php
-                include '../../Connect.php';
-                $query = "SELECT atleta.nome, atleta.cognome, atleta.cf FROM atleta";
-                $result = $cennection -> query($query);
-                while ($row = $result->fetch_assoc()){
-                    echo "<option value = '".$row['cf']."'> ". $row['cognome']. " " . $row['nome'] .  "</option>";
-                }
-            ?>
-            </select>   
+        <form action="./addIstituto.php" method="post">
+            
+            <label class="form-label">Inserisci il nome dell'istituto</label>
+            <input type="text" class="form-control" name="nome">
+
+            <label class='form-label'>Inserisci il CAP dall'istituto</label>
+            <input type="text" class='form-control' name="CAP">
+
+            <br>  
+            <center>
+                <input type="submit" class="btn btn-purple color-white" value="Invio">
+            </center>     
         </form>
-        
         <center>
             <br>  
             <a href="../Admin.php"><button class="btn btn-purple color-white">Back</button></a>   

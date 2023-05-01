@@ -13,46 +13,45 @@
 
 <body>
 
+    <nav class="navbar navbar-light bg-purple">
+        <div class="container-fluid">
+            <p class="navbar-brand color-white">
+                <img src="/Resources/LOGO.svg" alt="" width="30" height="24" class="d-inline-block white-logo ">
+                Olimpiadi di Informatica
+            </p>
+        </div>
+    </nav>
+
     <?php
-        include "./../../navBar.php";
+        if (isset($_POST['CAP'])){
+            include '../../Connect.php';
+            $query = "insert into sede
+            values ('" . $_POST['nome'] . "', '" . $_POST['CAP'] . "')";
+            $cennection -> query($query);
+        }
     ?>
-  
 
     <div class="center-div">
-    <?php 
-        include '../../Connect.php'; 
-        session_start();
-        if(isset ($_POST['CF'])) {
-            $_SESSION['numeroAtleti']--;
-            $query = "insert into atleta
-            values ('" . $_POST['nome'] . "', '" . $_POST['cognome']  . "',
-                " . $_POST['eta'] . ", '" . $_SESSION['Istituto'] . "',
-                '" . $_POST['CF'] ."', " . $_SESSION['ID_Squadra'] . ",
-                '" . $_POST['nazione'] . "')";
-            $result = $cennection -> query($query);
-        }        
-        
-        if ($_SESSION['numeroAtleti'] < 1) {
-            session_destroy();
-            echo "  <script>
-                        window.location.href = '../Admin.php'
-                    </script>";
+        <form action="./addSede.php" method="post">
             
-        }else{
-            echo "<form action='./addAtletaDaSquadra.php' method='post'>";
-            include "./atleta.php";
-            echo "<center>";
-            echo "<input type='submit' class='btn btn-purple color-white' vlaue='conferma'>";
-            echo "</center>";
-            echo "</form>";
-        }
-    ?>  
+            <label class="form-label">Inserisci il nome della sede</label>
+            <input type="text" class="form-control" name="nome">
+
+            <label class='form-label'>Inserisci il CAP</label>
+            <input type="text" class='form-control' name="CAP">
+
+            <br>  
+            <center>
+                <input type="submit" class="btn btn-purple color-white" value="Invio">
+            </center>     
+        </form>
         <center>
             <br>  
             <a href="../Admin.php"><button class="btn btn-purple color-white">Back</button></a>   
         </center>
     </div>
-
+    
+    
     <?php
         include "./../../Footer.php";
     ?>

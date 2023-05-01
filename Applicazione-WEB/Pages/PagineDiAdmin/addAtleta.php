@@ -17,11 +17,48 @@
         include "./../../navBar.php";
     ?>
   
+    <?php
+        if (isset($_POST['CF'])){
+            include '../../Connect.php';
+            $query_CreazioneSquadra = "INSERT INTO squadra (nome, cap_istituto)
+                                        VALUES ('" . $_POST['nome'] . "-" . $_POST['cognome'] . "', '" . $_POST['Cap_Istituto'] . "')"; 
+            $cennection -> query($query_CreazioneSquadra);
+
+            $query_getID_Squadra = "SELECT squadra.id_squadra FROM squadra WHERE squadra.nome = '" . $_POST['nome'] . "-" . $_POST['cognome'] . "';";
+            $row = $cennection -> query($query_getID_Squadra) -> fetch_assoc();
+            $id_squadra = $row['id_squadra'];
+
+            $query_creazioneAtleta = "insert into atleta
+            values ('" . $_POST['nome'] . "', '" . $_POST['cognome'] . "',
+             " . $_POST['eta'] . ", '" . $_POST['Cap_Istituto'] . "',
+              '" . $_POST['CF'] . "', " . $id_squadra . ", '" . $_POST['nazione'] . "');";
+            $cennection -> query($query_creazioneAtleta);
+
+        }
+    ?>
 
     <div class="center-div">
-    <?php 
-        include "./atleta.php";
-    ?>  
+        <form action="./addAtleta.php" method="post">
+        <?php 
+            include "./atleta.php";
+        ?>  
+            <label class='form-label'>Scegli l'istituto di appartenenza</label>
+            <select name="Cap_Istituto" class="form-select">
+                <option value="" selected></option>
+                <?php
+                    include '../../Connect.php';
+                    $query = "SELECT * FROM istituto";
+                    $result = $cennection -> query($query);
+                    while($row = $result->fetch_assoc()){
+                        echo "<option value = '" . $row['cap_istituto'] . "'>" . $row['nome'] . "</option>";
+                    }
+                ?>
+            </select>
+            <br>
+            <center>
+                <input type='submit' class='btn btn-purple color-white' vlaue='conferma'>;
+            </center>
+        </form>
         <center>
             <br>  
             <a href="../Admin.php"><button class="btn btn-purple color-white">Back</button></a>   

@@ -13,15 +13,43 @@
 
 <body>
 
-    <?php
-        include "./../../navBar.php";
+    <?php 
+        include'./../../navBar.php'; 
     ?>
 
+    <?php
+        if(isset($_POST['IdSquadra'])){
+            include './../../Connect.php';
+
+            $query_eliminaPartecipanti = "DELETE FROM atleta WHERE atleta.id_squadra = '" . $_POST['IdSquadra'] .  "'" ;
+            $cennection -> query($query_eliminaPartecipanti);
+
+            $query_eliminaPartecipa = "DELETE FROM partecipa WHERE partecipa.id_squadra = '" . $_POST['IdSquadra'] .  "'" ;
+            $cennection -> query($query_eliminaPartecipa);
+
+            $query_eliminaSquadra = "DELETE FROM squadra WHERE squadra.id_squadra = '" . $_POST['IdSquadra'] . "'";
+            $cennection -> query($query_eliminaSquadra);
+
+        }
+    ?>
 
     <div class="center-div">
-        <form action="./addSquadra.php" method="post">
-
+        <form action="./removeSquadra.php" method="post">
+            <label class="form-label">Seleziona la squadra che vuoi rimuovere dal database</label>
+            <select name="IdSquadra" class="form-select" onChange="this.form.submit()">
+                <option value="" selected></option>
+            <?php
+                include '../../Connect.php';
+                $query = "SELECT squadra.id_squadra, squadra.nome FROM squadra";
+                $result = $cennection -> query($query);
+                while ($row = $result->fetch_assoc()){
+                    echo "<option value = '".$row['id_squadra']."'> ". $row['nome']."</option>";
+                }
+            ?>
+            </select>
+            <br> 
         </form>
+        
         <center>
             <br>  
             <a href="../Admin.php"><button class="btn btn-purple color-white">Back</button></a>   

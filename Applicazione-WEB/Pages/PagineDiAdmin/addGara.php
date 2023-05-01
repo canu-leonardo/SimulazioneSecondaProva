@@ -17,10 +17,48 @@
         include "./../../navBar.php";
     ?>
 
+    <?php
+        include '../../Connect.php';
+        if (isset($_POST['sede'])){
+            $query = "INSERT INTO gara (id_fase, cap_sede, data_esecuzione)
+                        VALUES (" . $_POST['fase'] .", '" . $_POST['sede'] . "', '" . $_POST['data'] . "');";
+            $cennection -> query($query);
+        }
+    
+    ?>
 
     <div class="center-div">
-        <form action="./addSquadra.php" method="post">
-
+        <form action="./addGara.php" method="post">
+            <label class="form-label">Scegli la sede della gara</label>
+            <select name="sede" class="form-select">
+                <option value=""></option>
+                <?php
+                    include '../../Connect.php';
+                    $query = "SELECT * FROM sede";
+                    $result = $cennection->query($query);
+                    while($row = $result->fetch_assoc()){
+                        echo "<option value=" . $row['cap_sede'] . ">" . $row['nome'] . "</option>";
+                    }
+                ?>
+            </select>
+            <label class="form-label">Scegli la data nella quale si svolgera' la gara</label><br>
+            <input type="date" class="form-date" name="data"><br>
+            <label class="form-label">Scegli la fase</label>
+            <select name="fase" class="form-select">
+                <option value=""></option>
+            <?php
+                include '../../Connect.php';
+                $query = "SELECT * FROM fase";
+                $result = $cennection->query($query);
+                while($row = $result->fetch_assoc()){
+                    echo "<option value=" . $row['id_fase'] . ">" . $row['descrizione'] . "</option>";
+                }
+            ?>
+            </select> 
+            <br>
+            <center>
+                <input type='submit' class='btn btn-purple color-white' vlaue='conferma'>;
+            </center>  
         </form>
         <center>
             <br>  

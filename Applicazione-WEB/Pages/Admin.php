@@ -20,9 +20,11 @@
     <div class="center-div">
         <center>
             <div>
-                <a href="./PagineDiAdmin/addAtleta.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi atleta singolo   </button> </a> <br>
-                <a href="./PagineDiAdmin/addSquadra.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi Squadra  </button> </a> <br>
-                <a href="./PagineDiAdmin/addgara.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi gara     </button> </a> <br>
+                <a href="./PagineDiAdmin/addAtleta.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi atleta singolo </button> </a> <br>
+                <a href="./PagineDiAdmin/addSquadra.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi Squadra </button> </a> <br>
+                <a href="./PagineDiAdmin/addGara.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi gara </button> </a> <br>
+                <a href="./PagineDiAdmin/addIstituto.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi Istituto </button> </a> <br>
+                <a href="./PagineDiAdmin/addSede.php" class="col-6"> <button class="btn-admin btn btn-success">  Aggiungi Sede di Gara</button> </a> <br>
             </div>
                 <br>
             <div>
@@ -33,6 +35,10 @@
             <div>
                 <a href="./PagineDiAdmin/removeAtleta.php" class="col-6"> <button class="btn-admin btn btn-danger">  Rimuovi atleta    </button> </a> <br>
                 <a href="./PagineDiAdmin/removeSquadra.php" class="col-6"> <button class="btn-admin btn btn-danger">  Rimuovi Squadra   </button> </a> <br>
+            </div>
+                <br>
+            <div>
+                <a href="./PagineDiAdmin/registraPartecipazione.php" class="col-6"> <button class="btn-admin btn btn-info"> Regista parteipazione </button> </a> <br>
             </div>
         </center>
         <center>
