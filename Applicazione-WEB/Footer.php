@@ -8,7 +8,7 @@ echo "
                 <b>Team</b>
                 <hr class='orizotal-separator'>
                 Canu Leonardo<br>
-                Samue Maranghi
+                Samuele Maranghi
             </div>
             <div class='col-4 footer-column'>
                 <b>Sorce Code</b>

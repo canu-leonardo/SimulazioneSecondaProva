@@ -16,8 +16,6 @@
     <?php
         include "./../navBar.php";
     ?>
-
-
    
     
     <div class="center-div">
@@ -32,9 +30,9 @@
                     }else{
                         $_SESSION['Fase'] = 1;
                     }
-                    $connection = new mysqli("localhost","root","", "Olimpiadi_di_Informatica");
-                    $richiesta = "select * from fase";
-                    $result = $connection -> query($richiesta);
+                    include '../Connect.php';
+                    $richiesta = "SELECT * FROM fase";
+                    $result = $cennection -> query($richiesta);
                     while($row = $result->fetch_assoc()){
                         echo "<option value='" . $row['id_fase'] . "'>" . $row['descrizione'] . "</option>";
                     }
@@ -46,24 +44,30 @@
             <thead>
                 <tr>
                     <th scope="col">Posizione</th>
+                    <th scope="col">Punti</th>
                     <th scope="col">Nome della Squadra</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    if (isset($_SESSION['Fase'])){        
-                        $richiesta = "SELECT partecipa.posizione, squadra.nome FROM squadra
+                    if (isset($_SESSION['Fase'])){   
+                        include '../Connect.php';     
+                        $richiesta = "SELECT partecipa.punteggio, squadra.nome FROM squadra
                             INNER JOIN partecipa ON  partecipa.id_squadra = squadra.id_squadra
                             INNER JOIN gara ON gara.id_gara = partecipa.id_gara
                             INNER JOIN fase ON fase.id_fase = gara.id_fase
                             WHERE fase.id_fase = " . $_SESSION['Fase'] . "
-                            ORDER BY partecipa.posizione;";
-                        $result = $connection -> query($richiesta);
+                            ORDER BY partecipa.punteggio desc;";
+                        $result = $cennection -> query($richiesta);
+                        $posizione=1;
                         while($row = $result->fetch_assoc()){
+                            
                             echo "  <tr>
-                                        <td scope='row'>" . $row['posizione'] . " </td>
+                                        <td> " . $posizione . "</td>
+                                        <td scope='row'>" . $row['punteggio'] . " </td>
                                         <td>" . $row['nome'] . "</td>
                                     </tr>";
+                                    $posizione++;
                         }
                     }
                 ?>

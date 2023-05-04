@@ -28,7 +28,7 @@
     <div class="center-div">
         <form action="./removeAtleta.php" method="post">
         <label class="form-label">Seleziona l'atleta che vuoi rimuovere dal database</label>
-            <select name="CF" class="form-select" onChange="this.form.submit()">
+            <select name="CF" class="form-select">
                 <option value="" selected></option>
             <?php
                 include '../../Connect.php';
@@ -39,6 +39,10 @@
                 }
             ?>
             </select>   
+            <center>
+                <br>  
+                <input type="submit" class="btn btn-danger" value="Conferma"> 
+            </center>
         </form>
         
         <center>

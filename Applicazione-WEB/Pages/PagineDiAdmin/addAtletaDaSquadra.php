@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,10 +41,11 @@
                     </script>";
             
         }else{
+            echo'<center> <h5 class="color-purple"> mancano ancora ' . $_SESSION['numeroAtleti']  . ' atleti da inserire  </h5></center>';
             echo "<form action='./addAtletaDaSquadra.php' method='post'>";
             include "./atleta.php";
             echo "<center>";
-            echo "<input type='submit' class='btn btn-purple color-white' vlaue='conferma'>";
+            echo "<br><input type='submit' class='btn btn-purple color-white' vlaue='conferma'>";
             echo "</center>";
             echo "</form>";
         }

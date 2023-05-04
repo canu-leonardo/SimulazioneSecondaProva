@@ -77,13 +77,13 @@ CREATE DATABASE Olimpiadi_di_Informatica;
 USE Olimpiadi_di_Informatica;
 
 CREATE TABLE istituto (
-    nome varchar(20),
-    cap_istituto varchar(20)  not null primary key
+    nome varchar(50),
+    cap_istituto varchar(50)  not null primary key
 );
 
 CREATE TABLE sede (
-    nome varchar(20),
-    cap_sede varchar(20) not null primary key
+    nome varchar(50),
+    cap_sede varchar(50) not null primary key
 );
 
 CREATE TABLE fase (
@@ -94,19 +94,19 @@ CREATE TABLE fase (
 
 CREATE TABLE squadra (
     id_squadra int primary key auto_increment,
-    nome varchar(20) UNIQUE,
-    cap_istituto varchar(20),
+    nome varchar(50) UNIQUE,
+    cap_istituto varchar(50),
     foreign key (cap_istituto) references istituto (cap_istituto)
 );
 
 CREATE TABLE atleta (
-    nome varchar(20),
-    cognome varchar(20),
+    nome varchar(50),
+    cognome varchar(50),
     eta int,
-    cap_istituto varchar(20),
+    cap_istituto varchar(50),
     cf varchar(20) not null primary key,
     id_squadra int,
-    nazionalità varchar(30),
+    nazionalità varchar(50),
     foreign key (id_squadra) references squadra (id_squadra),
     foreign key (cap_istituto) references istituto (cap_istituto)
 );
@@ -114,7 +114,7 @@ CREATE TABLE atleta (
 CREATE TABLE gara (
     id_gara int auto_increment primary key,
     id_fase int,
-    cap_sede varchar(30),
+    cap_sede varchar(50),
     data_esecuzione Date,
     foreign key(cap_sede) references sede (cap_sede),
     foreign key(id_fase) references fase (id_fase)
@@ -123,18 +123,11 @@ CREATE TABLE gara (
 CREATE TABLE partecipa(
     id_squadra int not null,
     id_gara int not null,
-    posizione int,
     punteggio int,
     foreign key(id_squadra) references squadra (id_squadra),
     foreign key(id_gara) references gara (id_gara)
-)
-```
-
-## Riempimento della base di dati consigliato per i test
-
-```sql
-use Olimpiadi_di_Informatica;
-
+);
+#############RIEMPIMENTO DI BASE DELLE TABELLE
 insert into istituto
 	values ("Istituto1", "10010"),
   ("Istituto2", "10020"),
@@ -190,14 +183,14 @@ insert into gara (id_fase, cap_sede, data_esecuzione)
   (2, "80020", "2023-10-02"); # id 7
 
 insert into partecipa
-	values ( 2, 3, 3, 300),
-  ( 3, 3, 3, 301),
-  ( 4, 1, 3, 302),
-  ( 6, 4, 1, 303),
-  ( 1, 5, 3, 304),
-  ( 5, 1, 3, 305),
-  ( 6, 3, 3, 306),
-  ( 3, 4, 2, 307);
+	values ( 2, 3, 300),
+  ( 3, 3, 301),
+  ( 4, 1, 302),
+  ( 6, 4, 303),
+  ( 1, 5, 304),
+  ( 5, 1, 305),
+  ( 6, 3, 306),
+  ( 3, 4, 307);
 ```
 
 ## Le seguenti interrogazioni espresse in linguaggio SQL

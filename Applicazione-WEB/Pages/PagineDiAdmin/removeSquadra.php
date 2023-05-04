@@ -36,7 +36,7 @@
     <div class="center-div">
         <form action="./removeSquadra.php" method="post">
             <label class="form-label">Seleziona la squadra che vuoi rimuovere dal database</label>
-            <select name="IdSquadra" class="form-select" onChange="this.form.submit()">
+            <select name="IdSquadra" class="form-select">
                 <option value="" selected></option>
             <?php
                 include '../../Connect.php';
@@ -48,8 +48,10 @@
             ?>
             </select>
             <br> 
-        </form>
-        
+            <center>
+                <input type="submit" class="btn btn-danger" value="Conferma">
+            </center>
+        </form>        
         <center>
             <br>  
             <a href="../Admin.php"><button class="btn btn-purple color-white">Back</button></a>   

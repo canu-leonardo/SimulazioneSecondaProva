@@ -19,6 +19,7 @@
     <div class="center-div">
     <?php
         session_start();
+        #   session_destroy();
         if(isset($_SESSION['nome'])){
             include "./../../Connect.php";
             if(isset($_POST['NomeSquadra']) && !isset($_POST['cap'])){
@@ -78,11 +79,11 @@
         <select class="form-select" name="Nome">
             <?php
                 include './../../Connect.php';
-                $query = "SELECT nome FROM squadra order by nome";
+                $query = "SELECT squadra.nome FROM squadra order by nome";
                 $result = $cennection -> query($query);
                 echo "<option value='' selected> <b>Scegli una Squadra</b> </option>";
                 while($row = $result->fetch_assoc()){
-                    echo '<option value=' . $row['nome'] . '>' . $row['nome'] . '</option>';
+                    echo "<option value='" . $row['nome'] . "'>" . $row['nome'] . "</option>";
                 };
             ?>
         </select>

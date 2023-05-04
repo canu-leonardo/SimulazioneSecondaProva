@@ -130,7 +130,7 @@
     left: 85%;
 }
 .percorso :nth-child(4)::before{
-    content: "Scolastica";
+    content: "Internazionale";
     display: inline-block;
     position:relative;
     z-index: 200;

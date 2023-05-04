@@ -26,8 +26,7 @@
         if (isset($_POST['id_squadra'])){
             include '../../Connect.php';
             $query = "insert into partecipa
-            values ( " . $_POST['id_squadra'] . ", " . $_POST['id_gara'] . ",
-            " . $_POST['posizione'] . ", " . $_POST['punteggio'] . ")";
+            values ( " . $_POST['id_squadra'] . ", " . $_POST['id_gara'] . ", " . $_POST['punteggio'] . ")";
             $cennection -> query($query);
 
             $query = "SELECT fase.record, fase.id_fase FROM fase
@@ -51,10 +50,10 @@
             <select class="form-select" name="id_squadra">
                 <option value=""></option>
                 <?php
-                    include './../../Connect.php';
+                    include '../../Connect.php';
                     $query = "SELECT * FROM squadra order by nome";
                     $result = $cennection -> query($query);
-                    echo "<option value='' selected> <b>Scegli una Squadra</b> </option>";
+                    echo "<option value='' selected></option>";
                     while($row = $result->fetch_assoc()){
                         echo '<option value=' . $row['id_squadra'] . '>' . $row['nome'] . '</option>';
                     };
@@ -77,11 +76,9 @@
                     }
                 ?>
             </select>
-            <label class="form-label">Scegli il punteggio</label>
-            <input type="number" name="punteggio" class="form-control">
 
-            <label class="form-label">Inserisci la posizione</label>
-            <input type="number" name="posizione" class="form-control">
+            <label class="form-label">Inserisci il punteggio </label>
+            <input type="number" name="punteggio" class="form-control">
             <br>  
             <center>
                 <input type="submit" class="btn btn-purple color-white" value="Invio">
