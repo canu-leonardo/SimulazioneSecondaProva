@@ -209,13 +209,13 @@ SELECT fase.descrizione, atleta.nome, squadra.nome FROM atleta
 - dato il nome di un atleta stampare i risultati ottenuti nelle diverse gare alle quali ha partecipato:
 
 ```sql
-SELECT fase.id_fase, partecipa.punteggio, partecipa.posizione FROM partecipa
+SELECT fase.id_fase, fase.descrizione, partecipa.punteggio FROM partecipa
   INNER JOIN squadra ON squadra.id_squadra = partecipa.id_squadra
   INNER JOIN atleta ON atleta.id_squadra = squadra.id_squadra
   INNER JOIN gara ON gara.id_gara = partecipa.id_gara
   INNER JOIN fase ON fase.id_fase = gara.id_fase
-  WHERE atleta.nome = "NomeDato" # da cambiare, per esempio con ' Atleta1 '
-  ORDER BY fase.id_fase;
+  WHERE atleta.nome = "NomeDato" # da cambiare, per esempio con ' Atleta2 '
+  ORDER BY fase.id_fase, partecipa.punteggio;
 ```
 
 - stampare il calendario delle gare:
@@ -228,20 +228,21 @@ SELECT gara.* FROM gara
 - stampare una scheda informativa (cognome, nome, istituto scolastico di provenienza, nazionalità) del vincitore e della squadra vincitrice:
 
 ```sql
-SELECT squadra.nome, istituto.nome FROM squadra
+SELECT squadra.nome, istituto.nome, partecipa.punteggio FROM squadra
   INNER JOIN istituto ON istituto.cap_istituto
   INNER JOIN partecipa ON partecipa.id_squadra = squadra.id_squadra
   INNER JOIN gara ON partecipa.id_gara = gara.id_gara
   INNER JOIN fase ON fase.id_fase = gara.id_gara
   WHERE fase.id_fase = 4
-    AND partecipa.posizione = 1;
+  ORDER BY partecipa.punteggio DESC
+  LIMIT 1;
 	#in questa query, a causa del fatto che la tabella 'partecipa' racchiude sia i singoli che le squadre, non è possibile distinguere l'atleta singolo vincitore
 ```
 
 - stampare la classifica per ciascuna gara (a parità di punteggio vengono privilegiati gli atleti più giovani):
 
 ```sql
-SELECT gara.id_gara, partecipa.posizione, atleta.nome, atleta.cognome, atleta.eta, partecipa.punteggio FROM atleta
+SELECT gara.id_gara, atleta.nome, atleta.cognome, atleta.eta, partecipa.punteggio FROM atleta
   INNER JOIN squadra ON squadra.id_squadra = atleta.id_squadra
   INNER JOIN partecipa ON  partecipa.id_squadra = squadra.id_squadra
   INNER JOIN gara ON gara.id_gara = partecipa.id_gara
